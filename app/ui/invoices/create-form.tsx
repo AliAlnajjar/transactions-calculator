@@ -2,20 +2,21 @@ import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
   CheckIcon,
-  ClockIcon,
+  ChevronUpDownIcon,
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
+import { createInvoice } from '@/app/lib/actions';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   return (
-    <form>
+    <form action={createInvoice}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-            Choose customer
+            الزبون
           </label>
           <div className="relative">
             <select
@@ -23,9 +24,10 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               name="customerId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
+              required
             >
               <option value="" disabled>
-                Select a customer
+                اختر زبون
               </option>
               {customers.map((customer) => (
                 <option key={customer.id} value={customer.id}>
@@ -40,7 +42,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         {/* Invoice Amount */}
         <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Choose an amount
+            المبلغ
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -49,8 +51,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 name="amount"
                 type="number"
                 step="0.01"
-                placeholder="Enter USD amount"
+                placeholder="ادخل المبلغ"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                required
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -59,39 +62,37 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
 
         {/* Invoice Status */}
         <fieldset>
-          <legend className="mb-2 block text-sm font-medium">
-            Set the invoice status
-          </legend>
+          <legend className="mb-2 block text-sm font-medium">نوع الحركة</legend>
           <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-            <div className="flex gap-4">
+            <div className="flex gap-12">
               <div className="flex items-center">
                 <input
-                  id="pending"
+                  id="minus"
                   name="status"
                   type="radio"
-                  value="pending"
+                  value="minus"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="pending"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
+                  htmlFor="minus"
+                  className="items-left ml-2 flex min-w-full cursor-pointer justify-center gap-1.5 rounded-full bg-red-500 px-3 py-1.5 text-lg font-medium text-white"
                 >
-                  Pending <ClockIcon className="h-4 w-4" />
+                  لهم
                 </label>
               </div>
               <div className="flex items-center">
                 <input
-                  id="paid"
+                  id="plus"
                   name="status"
                   type="radio"
-                  value="paid"
+                  value="plus"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="paid"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+                  htmlFor="plus"
+                  className="items-left ml-2 flex min-w-full cursor-pointer justify-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-lg font-medium text-white"
                 >
-                  Paid <CheckIcon className="h-4 w-4" />
+                  لنا
                 </label>
               </div>
             </div>
@@ -103,9 +104,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           href="/dashboard/invoices"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          الغاء
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit">حفظ</Button>
       </div>
     </form>
   );
